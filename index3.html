@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Sevgilime Özel Quiz ❤️</title>
+    <style>
+        /* Genel Stil Ayarları */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+            color: #333;
+        }
+        
+        /* Başlık Stilleri */
+        h2, h3 { 
+            color: #e91e63;
+        }
+        
+        /* Quiz Kutusu Stilleri */
+        #game { 
+            max-width: 400px; 
+            margin: 50px auto; 
+            padding: 30px; 
+            border: none; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
+            background-color: white; 
+        }
+        
+        /* Buton Stilleri */
+        button { 
+            padding: 10px 20px; 
+            margin: 8px; 
+            cursor: pointer; 
+            background-color: #ff4081; 
+            color: white; 
+            border: none; 
+            border-radius: 20px; 
+            transition: background-color 0.3s, transform 0.1s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #c51162; 
+            transform: translateY(-2px); 
+        }
+
+        /* Sonuç Metni Stili */
+        #answers p {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #e91e63;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="game">
+        <h2 id="counter">Birlikte geçen gün: ∞ 💕</h2>
+        
+        <h3>Soru:</h3>
+        <p id="question"></p>
+        
+        <div id="answers">
+            </div>
+        
+        <h3 id="score"></h3>
+    </div>
+
+    <script>
+        // Gün sayısını buradan manuel olarak düzenleyebilirsiniz.
+        let days = "∞"; 
+
+        // ŞİFRE KONTROL FONKSİYONLARI KALDIRILDI
+
+        // *** SORULARINIZI BURADAN DÜZENLEYİN ***
+        const questions = [
+          {
+            q: "Senin gerçek memleketin neresi?", // İLK SORU MEMLEKET SORUSU OLDU
+            a: ["Bursa", "Yozgat", "Ankara"],
+            correct: 1 // Cevap: Yozgat
+          },
+          {
+            q: "En sevdiğim içecek hangisi?",
+            a: ["Ayran", "Bira", "Kola"],
+            correct: 1 
+          },
+          {
+            q: "En sevdiğim arkadaşım kim?",
+            a: ["Fırat", "Burak", "Ege"],
+            correct: 1 
+          }
+        ];
+
+        let index = 0;
+        let correctCount = 0;
+
+        const qEl = document.getElementById("question");
+        const aEl = document.getElementById("answers");
+        const sEl = document.getElementById("score");
+
+        function showQuestion() {
+          qEl.innerText = questions[index].q;
+          aEl.innerHTML = "";
+          sEl.innerText = `Skor: ${correctCount}/${questions.length}`;
+
+          questions[index].a.forEach((text, i) => {
+            const btn = document.createElement("button");
+            btn.innerText = text;
+            btn.type = "button"; 
+            btn.onclick = () => next(i);
+            aEl.appendChild(btn);
+          });
+        }
+
+        function next(answer) {
+          if (answer === questions[index].correct) {
+            correctCount++;
+          }
+
+          index++;
+
+          if (index < questions.length) {
+            showQuestion();
+          } else {
+            // Sonuç Ekranı
+            qEl.innerText = "Test Bitti! İşte Sonuçlar:";
+            aEl.innerHTML =
+              correctCount === questions.length
+                ? "<p>Tebrikler! Hepsini bildin 😍 Aslı ❤️<br>Seni çok seviyorum 💖</p>"
+                : `<p>Sonuç: ${correctCount}/${questions.length} doğru 🎯<br>Seni yine de çok seviyorum 💖</p>`;
+            sEl.innerText = "";
+          }
+        }
+        
+        // Sitenin yüklenir yüklenmez quiz'i başlatmasını sağla
+        window.onload = showQuestion;
+    </script>
+</body>
+</html>
