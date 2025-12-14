@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Aşk Testi 💖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    h1 { color: #e63946; }
+    button {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: #e63946;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #d62828; }
+    .score { margin-top: 15px; font-weight: bold; }
+    .heart {
+      position: fixed;
+      color: #e63946;
+      font-size: 24px;
+      animation: float 2s linear forwards;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="login">
+    <h1>Mini Soru 💌</h1>
+    <p>Nerelisin?</p>
+    <input type="password" id="password" placeholder="Cevabı yaz" style="padding:10px;width:90%;border-radius:10px;border:1px solid #ccc;">
+    <button onclick="checkPassword()">Giriş</button>
+  </div>
+
+  <div class="card" id="game" style="display:none;">
+    <h1>Aşk Testi 💘</h1>
+    <p id="question"></p>
+    <div id="counter" class="score"></div>
+    <div id="answers"></div>
+    <div class="score" id="score"></div>
+  </div>
+
+  <script>
+        let days = "∞";
+
+    function updateCounter() {
+      document.getElementById("counter").innerText = `Birlikte geçen gün: ${days} 💕`;
+    } 💕`;
+    }
+
+    function checkPassword() {
+      const pw = document.getElementById("password").value.toLowerCase();
+      if (pw === "yozgat") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("game").style.display = "block";
+        updateCounter();
+        showQuestion();
+      } else {
+        alert("Yanlış cevap 😄 Bir daha dene");
+      }
+    }
+
+    const questions = [
+      {
+        q: "En sevdiğim içecek hangisi?",
+        a: ["Ayran", "Bira", "Kola"],
+        correct: 1
+      },
+      {
+        q: "En sevdiğim arkadaşım kim?",
+        a: ["Fırat", "Burak", "Ege"],
+        correct: 1
+      },
+      {
+        q: "En nefret ettiğim insan profili hangisi?",
+        a: ["Mal", "Egoist", "Zengin"],
+        correct: 0
+      }
+    ];
+
+    let index = 0;
+    let correctCount = 0;
+
+    const qEl = document.getElementById("question");
+    const aEl = document.getElementById("answers");
+    const sEl = document.getElementById("score");
+
+    function showQuestion() {
+      qEl.innerText = questions[index].q;
+      aEl.innerHTML = "";
+      sEl.innerText = `Skor: ${correctCount}/${questions.length}`;
+      questions[index].a.forEach((text, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = text;
+        btn.onclick = () => next(i);
+        aEl.appendChild(btn);
+      });
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "0px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 2000);
+    }
+
+    function next(answer) {
+      if (answer === questions[index].correct) {
+        correctCount++;
+      }
+      index++;
+      if (index < questions.length) {
+        showQuestion();
+      } else {
+        qEl.innerText = "Test bitti 💖";
+        aEl.innerHTML = correctCount === questions.length
+          ? "<p>Hepsini bildin 😍 Aslı ❤️<br>Asıl doğru cevap: Seni çok seviyorum 💖</p>"
+          : `<p>${correctCount}/${questions.length} doğru 🎯<br>Aslı ❤️ asıl doğru cevap yine aynı: Seni çok seviyorum 💖</p>`;
+        sEl.innerText = "";
+      }
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
